@@ -5,4 +5,5 @@ first time i use the GitHub
 Hubot:
 Hi human!
 me:
-Hi Hubot! 
+Hi Hubot!
+how are you?
