@@ -7,3 +7,5 @@ Hi human!
 me:
 Hi Hubot!
 how are you?
+Hubot:
+I my hungry!
