@@ -9,3 +9,5 @@ Hi Hubot!
 how are you?
 Hubot:
 I my hungry!
+me:
+I got something to eat
