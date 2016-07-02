@@ -1,0 +1,47 @@
+//RMI实质上就是生成2个类stub，skeleton来进行参数和返回值的传递，采用值传递方式
+//类似于以前写的聊天室程序，被传递的对象应实现java.io.Serializable接口
+
+二、Websphere实现
+
+EJB类一览   
+
+这里结合WebSphere来讲讲各个类的调用关系吧！
+
+假定我们要创建一个读取User信息的SessionBean，需要我们写的有3个文件：
+
+1、UserServiceHome.java
+
+Home接口
+
+2、UserService.java
+
+Remote接口
+
+3、UserServiceBean.java
+
+Bean实现
+
+WSAD最终会生成10个class。其它7个是什么呢？我们一个一个数过来。
+
+4、_UserServiceHome_Stub.java 
+这个当然就是Home接口在Client端(动态加载)的Stub类了，它implements UserServiceHome。
+
+5、_EJSRemoteStatelessUserServiceHome_a940aa04_Tie.java 
+Home接口在Server端的Skeleton类，"a940aa04"应该是随机生成的，所有其他的相关class名里都会有这个标志串，Tie是Corba对Skeleton的叫法。
+
+6、EJSRemoteStatelessUserServiceHome_a940aa04.java 
+Home接口在Server端的实现，当然，它也implements UserServiceHome。
+
+7、EJSStatelessUserServiceHomeBean_a940aa04.java 
+由#6调用，create _UserService_Stub。(为什么#6不能直接create _UserService_Stub呢？后面再讲。)
+
+8、_UserService_Stub.java 
+Remote接口在Client端(动态加载)的Stub类。它implements UserService。
+
+9、_EJSRemoteStatelessUserService_a940aa04_Tie.java 
+Remote接口在Server端的Skeleton类。
+
+10、EJSRemoteStatelessUserService_a940aa04.java 
+Remote接口在Server端的实现，当然，它也implements UserService。并且，它负责调用UserServiceBean——也就是我们所写的Bean实现类——里面的business method。
+
+那么，各个类之间的调用关系到底是怎么样的呢？简单的说，就是两次RMI循环。  
